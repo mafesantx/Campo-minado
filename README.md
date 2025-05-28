@@ -1,2 +1,2 @@
 # Campo-minado
-Trabalho de Sistemas Operacionais.Campominado
+Jogo Campo Minado - Trabalho em grupo faculdade.
