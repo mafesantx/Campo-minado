@@ -1,1 +1,5 @@
-
+Tarefas:
+Usar semáforos/mutex para impedir conflitos ao acessar o tabuleiro.
+Garantir que apenas um jogador interaja com o jogo por vez.
+Proteger regiões críticas (abrir célula, atualizar placar).
+Responsavel: FERNANDES RIBEIRO BEZERRA, LÍVIA
