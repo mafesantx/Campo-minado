@@ -3,3 +3,48 @@
 //Definir regras, formato do jogo e quantidade de jogadores.
 //Criar o fluxograma básico do funcionamento.
 //Ajudar os programadores com ideias e organização das estruturas.
+
+---------------------------------------------------------------------------
+
+1. Regras do Jogo, Formato e Jogadores:
+
+* O programa se inicia apresentando um menu:
+-Iniciar jogo; -->> 3 Opções
+-Recorde; --> nome apenas do melhor placar (do vencerdor)
+-Sair 
+
+* Serão 2 jogadores, no mesmo computador.
+
+* No menu  (iniciar jogo) haverá 3 opções de jogo:
+-Curto; - ( Tabuleiro  3x3 com 2 minas)
+-Medio; -  ( Tabuleiro  5x5 com 6 minas)
+-Longo; -  ( Tabuleiro  8x8 com  10 minas)
+
+* A célula é escolhida como tabela de Excel (linas em números e colunas em letras), ex.: A1, D5, etc.
+
+* As minas serão posicionadas de forma aleatória
+
+* Cada jogador tem seu tempo cronometrado com limite de 15 segundos para selecionar a célula escolhida;
+
+* o jogo pode ser pausado durado a partida com alguma tecla ou comando (não sei qual);
+
+* Cada jogador so podera jogar na sua vez, e o outro ficarar aguardando o tempo zerar ou o o jogador da vez selecionar a célula (acho que isso é a semafozação, mas não tenho certeza):
+
+* Se achar mina, perde  1 ponto. Se acertar célula livre, ganha 1 ponto:
+
+* so pode ser escolhida uma célular por vez para cada jogador;
+
+* Vence quem tiver mais pontos no final de todo a tabela selecionada, ou todas as minas forem encontradas.
+
+
+2. Fluxo do Jogo
+Menu Inicial:
+  \>>Jogar > escclher o tipo da partida (3opçãos) > nome de cada jogador> o programa pergunta qual será o primeiro jogador a selecionar a célula > inicia-se a partida.
+ \>>Recordes → Mostra placar salvo
+ \>>Sair → Fecha o jogo
+
+Durante o jogo:
+
+>> alterna-se de jogador de forma automatica  a cada 15 Segs, ou ao final da seleção do outro jogador.>> todas as celulas selecionada ou todos as minas "explodidas" >> fim de jogo > exibe o jogador e grava o record ( se superar o recorde que existir), caso contrario so exibe o venceder e sua pontuação.
+
+>> caso o jogador pause, fica o conometro parado até receber o comando de retornar.
