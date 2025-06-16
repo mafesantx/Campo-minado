@@ -25,6 +25,8 @@ int totalMinas;
 int minasRestantes;
 int turno = 0;  // 0 = jogador A, 1 = jogador B
 int fimDeJogo = 0;
+int minasJogadorA = 0;
+int minasJogadorB = 0;
 
 int letraParaIndice(char letra) {
     return letra - 'A';
@@ -90,15 +92,23 @@ int revelarCelula(char jogador, char colunaLetra, int linha) {
     tabuleiro[i][j].revelado = 1;
     tabuleiro[i][j].dono = jogador;
 
-    if (tabuleiro[i][j].temMina)
+    if (tabuleiro[i][j].temMina){
+        if (jogador == 'A') {
+            minasJogadorA++;
+        } else {
+            minasJogadorB++;
+        }
         return 1;
-    else
+    } else {
         return 0;
+    }
+        
 }
 
 void* threadJogador(void* arg) {
     char jogador = *(char*)arg;
     int jogadorID = (jogador == 'A') ? 0 : 1;
+
 
    while (1) {
         while(1) {
@@ -134,6 +144,11 @@ void* threadJogador(void* arg) {
             if (resultado == 1) {
                 printf("Jogador %c encontrou uma mina!\n", jogador);
                 minasRestantes--;
+                if (jogador == 'A') {
+                    minasJogadorA++;
+                } else {
+                    minasJogadorB++;
+                }
             } else {
                 printf("Nada aqui. Boa jogada!\n");
             }
@@ -141,10 +156,21 @@ void* threadJogador(void* arg) {
             if (minasRestantes <= 0) {
                 fimDeJogo = 1;
                 printf("\nFim de jogo! Todas as minas foram encontradas.\n");
-                mostrarTabuleiroDebug();
-            }
 
-            turno = 1 - turno;
+                mostrarTabuleiroDebug();
+
+                if(minasJogadorA > minasJogadorB) {
+                    printf("Jogador B venceu!\n");
+                } else if(minasJogadorA < minasJogadorB) {
+                    printf("Jogador A venceu!\n");
+                } else {
+                    printf("Empate!\n");
+                }
+            }
+            else {
+                turno = 1 - turno;
+            }
+            
         }
         sem_post(&semaforo);
     }
@@ -153,10 +179,11 @@ void* threadJogador(void* arg) {
 
 int main() {
     setlocale(LC_ALL, "Portuguese");
+
     srand(time(NULL));
 
     int escolha;
-    printf("Escolha a dificuldade (1 - Curto, 2 - Médio, 3 - Longo): ");
+    printf("Escolha a dificuldade (1 - Fácil, 2 - Intermediário, 3 - Difícil): ");	
     scanf("%d", &escolha);
 
     switch (escolha) {
