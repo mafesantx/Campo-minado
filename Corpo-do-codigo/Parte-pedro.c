@@ -26,23 +26,23 @@ int tamanhoTabuleiro;
 int totalMinas;
 
 //Funções de Manipulação
-//Conversão de Letra para Índice
+//1 Conversão de Letra para Índice
 
 int letraParaIndice(char letra)
 {
     return letra - 'A';
 }
 
-//Inicialização do Tabuleiro
+//2 Inicialização do Tabuleiro
 
 void inicializarTabuleiro(int tamanho, int minas)
 {
-    //Define o tamanho e quantidade de minas
+    //a Define o tamanho e quantidade de minas
     
     tamanhoTabuleiro = tamanho;
     totalMinas = minas;
     
-//Preenche todo o tabuleiro zerado
+//b Preenche todo o tabuleiro zerado
     
     for (int i = 0; i < tamanho; i++)
     {
@@ -53,7 +53,7 @@ void inicializarTabuleiro(int tamanho, int minas)
             tabuleiro[i][j].dono = ' ';
         }
     }
-//Distribui as minas de forma aleatória
+//c Distribui as minas de forma aleatória
     
     int colocadas = 0;
     while (colocadas < minas)
@@ -68,7 +68,7 @@ void inicializarTabuleiro(int tamanho, int minas)
     }
 }
 
-//Mostrar o Tabuleiro (Modo Debug)
+//3 Mostrar o Tabuleiro (Modo Debug)
 
 void mostrarTabuleiroDebug()
 {
@@ -100,35 +100,40 @@ void mostrarTabuleiroDebug()
     }
 }
 
-//Revelar Célula
+//4 Revelar Célula
 
 int revelarCelula(char jogador, char colunaLetra, int linha)
 {
     
-    //Converte a entrada do jogador para índices da matriz
+    //a Converte a entrada do jogador para índices da matriz
     
     int i = linha - 1;
     int j = letraParaIndice(colunaLetra);
 
-//Valida se está dentro do tabuleiro
+//b Valida se está dentro do tabuleiro
     
     if (i < 0 || i >= tamanhoTabuleiro || j < 0 || j >= tamanhoTabuleiro)
         return -1;
 
-//verifica se a célula já foi revelada
+//c verifica se a célula já foi revelada
     
     if (tabuleiro[i][j].revelado)
         return -2;
 
-//Revela a célula e marca o dono
+//d Revela a célula e marca o dono
     
     tabuleiro[i][j].revelado = 1;
     tabuleiro[i][j].dono = jogador;
 
-//Retorna: 1 se o jogador revelou uma mina (perde ponto). 0 se a célula era segura. -1 se jogada inválida (fora do tabuleiro). -2 se célula já estava revelada
+//e Retorna: 1 se o jogador revelou uma mina (perde ponto). 0 se a célula era segura. -1 se jogada inválida (fora do tabuleiro). -2 se célula já estava revelada
     
     if (tabuleiro[i][j].temMina)
         return 1;
     else
         return 0;
 }
+//Resumo do que eu fiz
+//Criei a estrutura do tabuleiro e das células.
+//Implementei o sistema de inicialização e distribuição aleatória das minas.
+//Garanti a visualização do tabuleiro para debug.
+//Fiz a lógica básica que permite o jogador jogar revelando células e identificando se pisou em mina ou não.
