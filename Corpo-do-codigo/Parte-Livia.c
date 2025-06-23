@@ -11,6 +11,8 @@
 #define MINAS_CURTO 2
 #define MINAS_MEDIO 6
 #define MINAS_LONGO 10
+#define TEMPO_PARTIDA 600
+
 static sem_t semaforo;
 
 typedef struct {
@@ -27,6 +29,7 @@ int turno = 0;  // 0 = jogador A, 1 = jogador B
 int fimDeJogo = 0;
 int minasJogadorA = 0;
 int minasJogadorB = 0;
+int tempoEsgotado = 0;
 
 int letraParaIndice(char letra) {
     return letra - 'A';
@@ -103,6 +106,20 @@ int revelarCelula(char jogador, char colunaLetra, int linha) {
         return 0;
     }
         
+}
+void* threadTempo(void* arg) {
+    sleep(TEMPO_PARTIDA);
+
+    sem_wait(&semaforo);
+
+    if (!fimDeJogo) {
+        tempoEsgotado = 1;
+        fimDeJogo = 1;
+        printf("\nTempo esgotado! Fim de jogo. Ambos os jogadores perderam.\n");
+    }
+    sem_post(&semaforo);
+
+    return NULL;
 }
 
 void* threadJogador(void* arg) {
@@ -182,6 +199,7 @@ int main() {
 
     srand(time(NULL));
 
+
     int escolha;
     printf("Escolha a dificuldade (1 - Fácil, 2 - Intermediário, 3 - Difícil): ");	
     scanf("%d", &escolha);
@@ -196,18 +214,20 @@ int main() {
             break;
     }
 
-    pthread_t t1, t2;
+    pthread_t t1, t2, tempoThread;
 
     char jogadorA = 'A';
     char jogadorB = 'B';
 
     sem_init(&semaforo, 0, 1);
 
+    pthread_create(&tempoThread, NULL, threadTempo, NULL);
     pthread_create(&t1, NULL, threadJogador, &jogadorA);
     pthread_create(&t2, NULL, threadJogador, &jogadorB);
 
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
+    pthread_join(tempoThread, NULL);
 
     sem_destroy(&semaforo);
 
