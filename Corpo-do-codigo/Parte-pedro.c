@@ -3,10 +3,14 @@
 #include <time.h>
 #include <string.h>
 
+//Definição de constantes e struct
+
 #define MAX 8
 #define MINAS_CURTO 2
 #define MINAS_MEDIO 6
 #define MINAS_LONGO 10
+
+//struct celula
 
 typedef struct
 {
@@ -15,20 +19,31 @@ typedef struct
     char dono;
 } Celula;
 
+//declaração do tabuleiro
+
 Celula tabuleiro[MAX][MAX];
 int tamanhoTabuleiro;
 int totalMinas;
+
+//Funções de Manipulação
+//Conversão de Letra para Índice
 
 int letraParaIndice(char letra)
 {
     return letra - 'A';
 }
 
+//Inicialização do Tabuleiro
+
 void inicializarTabuleiro(int tamanho, int minas)
 {
+    //Define o tamanho e quantidade de minas
+    
     tamanhoTabuleiro = tamanho;
     totalMinas = minas;
-
+    
+//Preenche todo o tabuleiro zerado
+    
     for (int i = 0; i < tamanho; i++)
     {
         for (int j = 0; j < tamanho; j++)
@@ -38,7 +53,8 @@ void inicializarTabuleiro(int tamanho, int minas)
             tabuleiro[i][j].dono = ' ';
         }
     }
-
+//Distribui as minas de forma aleatória
+    
     int colocadas = 0;
     while (colocadas < minas)
     {
@@ -51,6 +67,8 @@ void inicializarTabuleiro(int tamanho, int minas)
         }
     }
 }
+
+//Mostrar o Tabuleiro (Modo Debug)
 
 void mostrarTabuleiroDebug()
 {
@@ -82,20 +100,33 @@ void mostrarTabuleiroDebug()
     }
 }
 
+//Revelar Célula
+
 int revelarCelula(char jogador, char colunaLetra, int linha)
 {
+    
+    //Converte a entrada do jogador para índices da matriz
+    
     int i = linha - 1;
     int j = letraParaIndice(colunaLetra);
 
+//Valida se está dentro do tabuleiro
+    
     if (i < 0 || i >= tamanhoTabuleiro || j < 0 || j >= tamanhoTabuleiro)
         return -1;
 
+//verifica se a célula já foi revelada
+    
     if (tabuleiro[i][j].revelado)
         return -2;
 
+//Revela a célula e marca o dono
+    
     tabuleiro[i][j].revelado = 1;
     tabuleiro[i][j].dono = jogador;
 
+//Retorna: 1 se o jogador revelou uma mina (perde ponto). 0 se a célula era segura. -1 se jogada inválida (fora do tabuleiro). -2 se célula já estava revelada
+    
     if (tabuleiro[i][j].temMina)
         return 1;
     else
